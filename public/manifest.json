@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Dream Stock New Tab",
+  "version": "1.0",
+  "description": "A new tab page showing daily stock recommendations",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": [
+    "storage"
+  ]
+}
+
