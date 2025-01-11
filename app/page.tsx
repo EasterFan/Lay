@@ -10,6 +10,7 @@ export default function NewTabPage() {
   const [currentDay, setCurrentDay] = useState(0)
 
   useEffect(() => {
+    console.log('im here......')
     fetchStockData().then(data => setStockData(data))
   }, [])
 
