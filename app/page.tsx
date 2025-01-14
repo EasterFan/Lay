@@ -9,6 +9,7 @@ export default function NewTabPage() {
   const [stockData, setStockData] = useState<Array<{ code: string; name: string }>>([])
   const [currentDay, setCurrentDay] = useState(0)
 
+  console.log('im here 111111......')
   useEffect(() => {
     console.log('im here......')
     fetchStockData().then(data => setStockData(data))
