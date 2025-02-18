@@ -4,20 +4,26 @@ import { fetchStockData } from '../services/stockService'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 export default function HomePage() {
-  const [stockData, setStockData] = useState<Array<{ code: string; name: string }>>([])
+  const [dailyData, setDailyData] = useState<Array<{ date: string; strategyList: Array<{ title: string; stockList: Array<{ code: string; name: string }> }> }>>([])
   const [currentDay, setCurrentDay] = useState(0)
 
   useEffect(() => {
-    fetchStockData().then(data => setStockData(data))
+    fetchStockData().then(data => {
+      setDailyData(data)
+      console.log('currentDay', currentDay) // 在这里打印 dailyData 变量的值
+      console.log('dailyData', data[0]) // 在这里打印 dailyData 变量的值
+    })
   }, [])
 
-  const handlePrevDay = () => {
+
+ const handlePrevDay = () => {
+    setCurrentDay(prev => Math.min(prev + 1, dailyData.length - 1))
+  }
+
+const handleNextDay = () => {
     setCurrentDay(prev => Math.max(prev - 1, 0))
   }
 
-  const handleNextDay = () => {
-    setCurrentDay(prev => Math.min(prev + 1, 6))
-  }
 
   return (
     <div
@@ -30,13 +36,19 @@ export default function HomePage() {
       }}
     >
       <div className="absolute top-8 left-8">
-        {stockData.length > 0 && (
-          <StockRecommendation stock={stockData[currentDay]} />
-        )}
+        {dailyData.length > 0 && dailyData[currentDay].strategyList.map((strategy, index) => (
+          <StockRecommendation 
+            key={index} 
+            strategy={{ 
+              ...strategy, 
+              date: dailyData[currentDay].date
+            }} 
+          />
+        ))}
       </div>
       <button
         onClick={handlePrevDay}
-        disabled={currentDay === 0}
+        disabled={currentDay === dailyData.length - 1}
         className="absolute left-0 top-1/2 transform -translate-y-1/2 px-2 py-20 bg-black/10 hover:bg-black/20 text-black rounded-r transition-opacity duration-300 opacity-0 hover:opacity-100"
         aria-label="Previous Day"
       >
@@ -44,7 +56,7 @@ export default function HomePage() {
       </button>
       <button
         onClick={handleNextDay}
-        disabled={currentDay === 6}
+        disabled={currentDay === 0}
         className="absolute right-0 top-1/2 transform -translate-y-1/2 px-2 py-20 bg-black/10 hover:bg-black/20 text-black rounded-l transition-opacity duration-300 opacity-0 hover:opacity-100"
         aria-label="Next Day"
       >
