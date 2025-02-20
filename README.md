@@ -11,7 +11,7 @@
 ### 安装
 
 - [chrome web store - come soon]()
-- [离线安装包](https://github.com/dukeluo/wai/releases)
+- [离线安装包](https://github.com/EasterFan/Lay/releases)
 - [在线体验-come soon]()
 
 
